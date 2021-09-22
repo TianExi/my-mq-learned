@@ -20,26 +20,80 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:mymq.properties")
 public class RabbitConfig {
-    @Value("${com.wangxx.firstqueue}")
-    private String firstQueue;
 
     @Value("${com.wangxx.topicexchange}")
     private String topicExchange;
 
-    // 创建队列
+    @Value("${com.wangxx.fanoutexchange}")
+    private String fanoutexchange;
+
+    @Value("${com.wangxx.firstqueue}")
+    private String firstQueue;
+
+    @Value("${com.wangxx.secondqueue}")
+    private String secondqueue;
+
+    @Value("${com.wangxx.thirdqueue}")
+    private String thirdqueue;
+
+    @Value("${com.wangxx.fourthqueue}")
+    private String fourthqueue;
+
+    @Value("${com.wangxx.fifthqueue}")
+    private String fifthqueue;
+
+    // 创建3个队列
     @Bean("vipFirstQueue")
     public Queue getFirstQueue(){
         return new Queue(firstQueue);
     }
+    @Bean("vipSecondQueue")
+    public Queue getSecondQueue(){
+        return new Queue(secondqueue);
+    }
+    @Bean("vipThirdQueue")
+    public Queue getThirdQueue(){
+        return new Queue(thirdqueue);
+    }
+    @Bean("vipFourthQueue")
+    public Queue getFourthQueue(){
+        return new Queue(fourthqueue);
+    }
+    @Bean("vipFifthQueue")
+    public Queue getFifthQueue(){
+        return new Queue(fifthqueue);
+    }
 
+    //创建2个交换机
     @Bean("vipTopicExchange")
     public TopicExchange getTopicExchange(){
         return new TopicExchange(topicExchange);
     }
+    @Bean("vipFanoutexchange")
+    public FanoutExchange getFanoutexchange(){
+        return new FanoutExchange(fanoutexchange);
+    }
 
+    //创建3个绑定关系
     @Bean
-    public Binding bindSecond(@Qualifier("vipFirstQueue") Queue queue, @Qualifier("vipTopicExchange") TopicExchange exchange){
-        return BindingBuilder.bind(queue).to(exchange).with("*.gupao.*");
+    public Binding bindFirst(@Qualifier("vipFirstQueue") Queue queue, @Qualifier("vipTopicExchange") TopicExchange exchange){
+        return BindingBuilder.bind(queue).to(exchange).with("*.demo01.*");
+    }
+    @Bean
+    public Binding bindSecond(@Qualifier("vipSecondQueue") Queue queue, @Qualifier("vipTopicExchange") TopicExchange exchange){
+        return BindingBuilder.bind(queue).to(exchange).with("*.demo02.*");
+    }
+    @Bean
+    public Binding bindThird(@Qualifier("vipThirdQueue") Queue queue, @Qualifier("vipTopicExchange") TopicExchange exchange){
+        return BindingBuilder.bind(queue).to(exchange).with("*.demo03.*");
+    }
+    @Bean
+    public Binding bindFourth(@Qualifier("vipFourthQueue") Queue queue, @Qualifier("vipFanoutexchange") FanoutExchange exchange){
+        return BindingBuilder.bind(queue).to(exchange);
+    }
+    @Bean
+    public Binding bindFifth(@Qualifier("vipFifthQueue") Queue queue, @Qualifier("vipFanoutexchange") FanoutExchange exchange){
+        return BindingBuilder.bind(queue).to(exchange);
     }
 
     /**

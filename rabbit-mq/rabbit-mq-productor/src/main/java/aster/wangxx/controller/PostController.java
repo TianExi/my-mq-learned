@@ -2,6 +2,8 @@ package aster.wangxx.controller;
 
 import aster.wangxx.aspect.XLog;
 import aster.wangxx.entity.Message;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,8 +29,17 @@ public class PostController {
     @Value("${com.wangxx.topicexchange}")
     private String topicExchange;
 
-    @Value("${com.wangxx.topicroutingkey}")
-    private String topicRoutingKey;
+    @Value("${com.wangxx.topicroutingkey01}")
+    private String topicRoutingKey01;
+
+    @Value("${com.wangxx.topicroutingkey02}")
+    private String topicRoutingKey02;
+
+    @Value("${com.wangxx.topicroutingkey03}")
+    private String topicRoutingKey03;
+
+    @Value("${com.wangxx.fanoutexchange}")
+    private String fanoutexchange;
 
     @Autowired
     AmqpTemplate gupaoTemplate;
@@ -38,11 +49,36 @@ public class PostController {
         return new HashMap();
     }
 
+    /**
+     * 根据上送的消息id分发消息到三个绑定队列
+     * @param data
+     * @throws JsonProcessingException
+     */
     @PostMapping("/addMessage")
     @XLog
-    public Map addMessage (@RequestBody Message data) {
-        gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey, data.getMessage());
-        return new HashMap();
+    public void addMessage (@RequestBody Message data) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(data);
+        if (1 == data.getId() % 3) {
+            gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey01, json);
+        } else if (1 == data.getId() % 2) {
+            gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey02, json);
+        } else {
+            gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey03, json);
+        }
+    }
+
+    /**
+     * 将消息发布到广播交换机 交换机将消息广播到各个绑定的消息队列
+     * @param data
+     * @throws JsonProcessingException
+     */
+    @PostMapping("/broadcastMessage")
+    @XLog
+    public void broadcastMessage (@RequestBody Message data) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(data);
+        gupaoTemplate.convertAndSend(fanoutexchange, "", json);
     }
 
 }
