@@ -1,6 +1,7 @@
 package aster.wangxx.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import aster.wangxx.aspect.XLog;
+import aster.wangxx.entity.Message;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,13 +21,13 @@ import java.util.Map;
  * @Version 1.0
  **/
 @RestController
-@PropertySource("classpath:gupaomq.properties")
+@PropertySource("classpath:mymq.properties")
 public class PostController {
 
-    @Value("${com.gupaoedu.topicexchange}")
+    @Value("${com.wangxx.topicexchange}")
     private String topicExchange;
 
-    @Value("${com.gupaoedu.topicroutingkey}")
+    @Value("${com.wangxx.topicroutingkey}")
     private String topicRoutingKey;
 
     @Autowired
@@ -38,8 +39,9 @@ public class PostController {
     }
 
     @PostMapping("/addMessage")
-    public Map addMessage (@RequestBody JSONObject data) {
-        gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey, data.toJSONString());
+    @XLog
+    public Map addMessage (@RequestBody Message data) {
+        gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey, data.getMessage());
         return new HashMap();
     }
 

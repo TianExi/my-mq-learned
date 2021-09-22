@@ -17,17 +17,16 @@ import org.springframework.context.annotation.PropertySource;
  * @Date 7:20 2021/9/22
  * @Version 1.0
  **/
-
 @Configuration
-@PropertySource("classpath:gupaomq.properties")
+@PropertySource("classpath:mymq.properties")
 public class RabbitConfig {
-    @Value("${com.gupaoedu.firstqueue}")
+    @Value("${com.wangxx.firstqueue}")
     private String firstQueue;
 
-    @Value("${com.gupaoedu.topicexchange}")
+    @Value("${com.wangxx.topicexchange}")
     private String topicExchange;
 
-    // 创建四个队列
+    // 创建队列
     @Bean("vipFirstQueue")
     public Queue getFirstQueue(){
         return new Queue(firstQueue);

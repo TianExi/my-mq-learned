@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  **/
 
 @Component
-@PropertySource("classpath:gupaomq.properties")
+@PropertySource("classpath:mymq.properties")
 @RabbitListener(queues = "${com.gupaoedu.firstqueue}", containerFactory="rabbitListenerContainerFactory")
 public class MyConsumer {
 
