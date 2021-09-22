@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PropertySource("classpath:mymq.properties")
-@RabbitListener(queues = "${com.gupaoedu.firstqueue}", containerFactory="rabbitListenerContainerFactory")
-public class MyConsumer {
+@RabbitListener(queues = "${com.wangxx.thiredqueue}", containerFactory="rabbitListenerContainerFactory")
+public class ThiredConsumer {
 
     @RabbitHandler
     public void process(String data){
-        System.out.println("First Queue received msg : " + data);
+        System.out.println("Thired Queue received msg : " + data);
     }
 }

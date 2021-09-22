@@ -33,8 +33,8 @@ public class RabbitConfig {
     @Value("${com.wangxx.secondqueue}")
     private String secondqueue;
 
-    @Value("${com.wangxx.thirdqueue}")
-    private String thirdqueue;
+    @Value("${com.wangxx.thiredqueue}")
+    private String thiredqueue;
 
     @Value("${com.wangxx.fourthqueue}")
     private String fourthqueue;
@@ -51,9 +51,9 @@ public class RabbitConfig {
     public Queue getSecondQueue(){
         return new Queue(secondqueue);
     }
-    @Bean("vipThirdQueue")
-    public Queue getThirdQueue(){
-        return new Queue(thirdqueue);
+    @Bean("vipThiredQueue")
+    public Queue getThiredQueue(){
+        return new Queue(thiredqueue);
     }
     @Bean("vipFourthQueue")
     public Queue getFourthQueue(){
@@ -84,7 +84,7 @@ public class RabbitConfig {
         return BindingBuilder.bind(queue).to(exchange).with("*.demo02.*");
     }
     @Bean
-    public Binding bindThird(@Qualifier("vipThirdQueue") Queue queue, @Qualifier("vipTopicExchange") TopicExchange exchange){
+    public Binding bindThired(@Qualifier("vipThiredQueue") Queue queue, @Qualifier("vipTopicExchange") TopicExchange exchange){
         return BindingBuilder.bind(queue).to(exchange).with("*.demo03.*");
     }
     @Bean

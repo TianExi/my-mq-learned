@@ -4,6 +4,7 @@ import aster.wangxx.aspect.XLog;
 import aster.wangxx.entity.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ import java.util.Map;
  * @Date 18:15 2021/9/21
  * @Version 1.0
  **/
+@Slf4j
 @RestController
 @PropertySource("classpath:mymq.properties")
 public class PostController {
@@ -60,10 +62,13 @@ public class PostController {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(data);
         if (1 == data.getId() % 3) {
+            log.info(">>>>>>>>>>>>>>新增消息组1");
             gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey01, json);
-        } else if (1 == data.getId() % 2) {
+        } else if (2 == data.getId() % 3) {
+            log.info(">>>>>>>>>>>>>>新增消息组2");
             gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey02, json);
         } else {
+            log.info(">>>>>>>>>>>>>>新增消息组3");
             gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey03, json);
         }
     }
