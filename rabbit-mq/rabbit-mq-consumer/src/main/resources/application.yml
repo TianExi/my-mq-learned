@@ -1,7 +1,7 @@
 server:
   port: 9081
   servlet:
-    context-path: /consumer
+    context-path: /rabbit/consumer
 spring:
   rabbitmq:
     host: 192.168.247.130

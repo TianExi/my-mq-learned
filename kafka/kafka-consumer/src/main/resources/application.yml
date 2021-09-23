@@ -1,0 +1,21 @@
+server:
+  port: 9181
+  servlet:
+    context-path: /kafka/consumer
+spring:
+  kafka:
+    bootstrap-servers: 192.168.247.130:9092
+    consumer:
+      group-id: test-consumer
+      # 手动提交
+      enable-auto-commit: false
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        session.timeout.ms: 60000
+    listener:
+      log-container-config: false
+      concurrency: 5
+      # 手动提交
+      ack-mode: manual_immediate

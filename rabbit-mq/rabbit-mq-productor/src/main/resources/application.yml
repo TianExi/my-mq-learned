@@ -1,7 +1,7 @@
 server:
   port: 9080
   servlet:
-    context-path: /productor
+    context-path: /rabbit/productor
 spring:
   rabbitmq:
     host: 192.168.247.130
