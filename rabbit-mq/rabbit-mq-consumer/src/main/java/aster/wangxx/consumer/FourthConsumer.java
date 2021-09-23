@@ -1,5 +1,6 @@
 package aster.wangxx.consumer;
 
+import aster.wangxx.aspect.XLog;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.PropertySource;

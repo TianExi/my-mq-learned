@@ -57,18 +57,18 @@ public class PostController {
      * @throws JsonProcessingException
      */
     @PostMapping("/addMessage")
-    @XLog
+    @XLog(title = "生产")
     public void addMessage (@RequestBody Message data) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(data);
         if (1 == data.getId() % 3) {
-            log.info(">>>>>>>>>>>>>>新增消息组1");
+            log.info(">>>>>>>>>>>>>>新增消息到 组1");
             gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey01, json);
         } else if (2 == data.getId() % 3) {
-            log.info(">>>>>>>>>>>>>>新增消息组2");
+            log.info(">>>>>>>>>>>>>>新增消息到 组2");
             gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey02, json);
         } else {
-            log.info(">>>>>>>>>>>>>>新增消息组3");
+            log.info(">>>>>>>>>>>>>>新增消息到 组3");
             gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey03, json);
         }
     }
@@ -79,7 +79,7 @@ public class PostController {
      * @throws JsonProcessingException
      */
     @PostMapping("/broadcastMessage")
-    @XLog
+    @XLog(title = "生产")
     public void broadcastMessage (@RequestBody Message data) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(data);

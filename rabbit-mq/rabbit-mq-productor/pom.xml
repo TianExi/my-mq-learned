@@ -16,12 +16,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <dependencies>
+        <!--私有依赖-->
         <dependency>
             <groupId>aster.wangxx.example</groupId>
             <artifactId>rabbit-mq-tools</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!--启动依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -31,10 +33,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!--rabbit mq 依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+
+        <!--jackson : class转json String-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>

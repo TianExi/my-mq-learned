@@ -8,4 +8,7 @@ spring:
     port: 5672
     username: admin
     password: admin
-
+    #消费者 消息确认机制 自动确认
+    listener:
+      simple:
+        acknowledge-mode: manual
